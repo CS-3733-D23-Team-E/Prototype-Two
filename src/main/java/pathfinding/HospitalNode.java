@@ -112,11 +112,4 @@ public class HospitalNode {
     }
   }
 
-  public int getxCoord() {
-    return xCoord;
-  }
-
-  public int getyCoord() {
-    return yCoord;
-  }
 }

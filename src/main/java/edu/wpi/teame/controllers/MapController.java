@@ -2,6 +2,7 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.*;
 
+import Database.DatabaseController;
 import edu.wpi.teame.navigation.Navigation;
 import edu.wpi.teame.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -10,6 +11,7 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -18,6 +20,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import pathfinding.AStarPathfinder;
 import pathfinding.HospitalNode;
+import pathfinding.MoveAttribute;
+import javafx.scene.layout.BackgroundImage;
+
 
 public class MapController {
 
@@ -42,7 +47,20 @@ public class MapController {
   }
 
   private void addLabels() {
-    Label label = new Label();
+    DatabaseController db = new DatabaseController("teame", "teame50");
+    List<MoveAttribute> listOfAttributes = null; // = db.getMoveAttributeFromFloor();
+    for (MoveAttribute moveAttribute : listOfAttributes) {
+      Label label = new Label();
+      String nodeID = moveAttribute.nodeID;
+      HospitalNode node = HospitalNode.allNodes.get(nodeID);
+      int xCoord = node.getXCoord();
+      int yCoord = node.getYCoord();
+      label.setLayoutX(xCoord);
+      label.setLayoutY(yCoord);
+      BackgroundImage image = new BackgroundImage(new Image("../../../../../../../Maps/00_thelowerlevel1.png", 5000, 3400, true, true, true));
+
+    }
+
   }
 
   public void createPath() {
@@ -80,8 +98,8 @@ public class MapController {
    * @param path
    */
   private void drawPath(List<HospitalNode> path) {
-    int x1 = path.get(0).getxCoord();
-    int y1 = path.get(0).getyCoord();
+    int x1 = path.get(0).getXCoord();
+    int y1 = path.get(0).getYCoord();
     Circle startCircleOutside = new Circle(convertXCoord(x1), convertYCoord(y1), 10);
     startCircleOutside.setFill(BLACK);
     Circle startCircleInside = new Circle(convertXCoord(x1), convertYCoord(y1), 8);
@@ -89,14 +107,12 @@ public class MapController {
     anchorPane.getChildren().add(startCircleOutside);
     anchorPane.getChildren().add(startCircleInside);
 
-
-
     int x2, y2;
 
     for (int i = 1; i < path.size(); i++) {
       HospitalNode node = path.get(i);
-      x2 = node.getxCoord();
-      y2 = node.getyCoord();
+      x2 = node.getXCoord();
+      y2 = node.getYCoord();
 
       drawLine(x1, y1, x2, y2);
       System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
