@@ -6,6 +6,7 @@ public enum Screen {
   SERVICE_REQUEST("views/ServiceRequest.fxml"),
   SIGNAGE_TEXT("views/Signage.fxml"),
   MEAL_REQUEST("views/MealRequest.fxml"),
+  MAP("views/Map.fxml"),
   FLOWER_REQUEST("views/FlowerRequest.fxml");
 
   private final String filename;

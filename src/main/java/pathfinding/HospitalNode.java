@@ -126,4 +126,12 @@ public class HospitalNode {
       addEdge(allNodes.get(edge.nodeOneID), allNodes.get(edge.nodeTwoID), edge.edgeWeight);
     }
   }
+
+  public int getxCoord() {
+    return xCoord;
+  }
+
+  public int getyCoord() {
+    return yCoord;
+  }
 }
