@@ -2,16 +2,13 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.*;
 
-import Database.DatabaseController;
 import edu.wpi.teame.navigation.Navigation;
 import edu.wpi.teame.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -20,9 +17,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import pathfinding.AStarPathfinder;
 import pathfinding.HospitalNode;
-import pathfinding.MoveAttribute;
-import javafx.scene.layout.BackgroundImage;
-
 
 public class MapController {
 
@@ -47,20 +41,16 @@ public class MapController {
   }
 
   private void addLabels() {
-    DatabaseController db = new DatabaseController("teame", "teame50");
-    List<MoveAttribute> listOfAttributes = null; // = db.getMoveAttributeFromFloor();
-    for (MoveAttribute moveAttribute : listOfAttributes) {
-      Label label = new Label();
-      String nodeID = moveAttribute.nodeID;
-      HospitalNode node = HospitalNode.allNodes.get(nodeID);
-      int xCoord = node.getXCoord();
-      int yCoord = node.getYCoord();
-      label.setLayoutX(xCoord);
-      label.setLayoutY(yCoord);
-      BackgroundImage image = new BackgroundImage(new Image("../../../../../../../Maps/00_thelowerlevel1.png", 5000, 3400, true, true, true));
-
-    }
-
+    //    DatabaseController db = new DatabaseController("teame", "teame50");
+    //    List<MoveAttribute> listOfAttributes = null; // = db.getMoveAttributeFromFloor();
+    //    for (MoveAttribute moveAttribute : listOfAttributes) {
+    //      Label label = new Label();
+    //      String nodeID = moveAttribute.nodeID;
+    //      HospitalNode node = HospitalNode.allNodes.get(nodeID);
+    //      int xCoord = node.getXCoord();
+    //      int yCoord = node.getYCoord();
+    //      label.setLayoutX(xCoord);
+    //      label.setLayoutY(yCoord);
   }
 
   public void createPath() {
@@ -69,9 +59,11 @@ public class MapController {
       System.out.println("stage y:" + anchorPane.getHeight());
 
       AStarPathfinder pf = new AStarPathfinder();
+      System.out.println(HospitalNode.allNodes);
+
       List<HospitalNode> path =
           pf.findPath(
-              HospitalNode.allNodes.get("CLABS001L1"), HospitalNode.allNodes.get("CCONF002L1"));
+              HospitalNode.allNodes.get("CCONF002L1"), HospitalNode.allNodes.get("WELEV00HL1"));
 
       System.out.println("Path: " + path);
       drawPath(path);
