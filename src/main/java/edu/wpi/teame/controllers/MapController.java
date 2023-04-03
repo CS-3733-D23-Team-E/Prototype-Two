@@ -62,8 +62,12 @@ public class MapController {
       System.out.println(HospitalNode.allNodes);
 
       List<HospitalNode> path =
-          pf.findPath(
-              HospitalNode.allNodes.get("CCONF002L1"), HospitalNode.allNodes.get("WELEV00HL1"));
+          pf.findPath(HospitalNode.allNodes.get("2290"), HospitalNode.allNodes.get("1705"));
+
+      if (path == null) {
+        System.out.println("Path does not exist");
+        return;
+      }
 
       System.out.println("Path: " + path);
       drawPath(path);
@@ -92,9 +96,9 @@ public class MapController {
   private void drawPath(List<HospitalNode> path) {
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
-    Circle startCircleOutside = new Circle(convertXCoord(x1), convertYCoord(y1), 10);
+    Circle startCircleOutside = new Circle(convertXCoord(x1), convertYCoord(y1), 4);
     startCircleOutside.setFill(BLACK);
-    Circle startCircleInside = new Circle(convertXCoord(x1), convertYCoord(y1), 8);
+    Circle startCircleInside = new Circle(convertXCoord(x1), convertYCoord(y1), 3);
     startCircleInside.setFill(WHITE);
     anchorPane.getChildren().add(startCircleOutside);
     anchorPane.getChildren().add(startCircleInside);
@@ -107,13 +111,13 @@ public class MapController {
       y2 = node.getYCoord();
 
       drawLine(x1, y1, x2, y2);
-      System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
+//      System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
 
       x1 = x2;
       y1 = y2;
     }
 
-    Circle endCircle = new Circle(convertXCoord(x1), convertYCoord(y1), 10);
+    Circle endCircle = new Circle(convertXCoord(x1), convertYCoord(y1), 4);
     endCircle.setFill(BLACK);
     anchorPane.getChildren().add(endCircle);
   }

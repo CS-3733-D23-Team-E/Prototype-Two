@@ -1,14 +1,16 @@
 package edu.wpi.teame;
 
 import Database.DatabaseController;
+import Database.DatabaseGraphController;
 import pathfinding.HospitalNode;
 
 public class Main {
 
   public static void main(String[] args) {
-    DatabaseController db = new DatabaseController("teame", "teame50");
-    db.retrieveFromTable();
-    HospitalNode.processEdgeList(db.getHospitalEdges());
+    DatabaseController db = new DatabaseController();
+    DatabaseGraphController graphController = new DatabaseGraphController(db);
+    graphController.retrieveFromTable();
+    HospitalNode.processEdgeList(graphController.getHospitalEdges());
     System.out.println(HospitalNode.allNodes);
 
     App.launch(App.class, args);
