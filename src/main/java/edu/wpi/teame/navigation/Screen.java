@@ -14,6 +14,7 @@ public enum Screen {
   LOWER_ONE("views/LoweLevelOneMapNav.fxml"),
   LOWER_TWO("views/LowerLevelTwoMapNav.fxml"),
   FLOOR_ONE("views/FloorOneMapNav.fxml"),
+  TEST_MAP("views/TestMap.fxml"),
   FLOOR_TWO("views/FloorTwoMapNav.fxml"),
   FLOOR_THREE("views/FloorThreeMapNav.fxml"),
   MAP_MENU("views/MapMenu.fxml"),

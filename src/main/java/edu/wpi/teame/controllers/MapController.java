@@ -2,7 +2,11 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.*;
 
+import Database.DatabaseController;
+import Database.DatabaseGraphController;
+import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
+import edu.wpi.teame.map.MoveAttribute;
 import edu.wpi.teame.map.pathfinding.AStarPathfinder;
 import edu.wpi.teame.navigation.Navigation;
 import edu.wpi.teame.navigation.Screen;
@@ -10,86 +14,104 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 public class MapController {
+  @FXML private MFXButton backButton;
 
-  @FXML ImageView map;
-  @FXML AnchorPane anchorPane;
-  @FXML TextField fromTextField;
-  @FXML TextField toTextField;
-  @FXML MFXButton exitButton;
-  @FXML MFXButton findPathButton;
-  @FXML MFXButton refreshButton;
+  @FXML private MFXButton FirstFloorButton;
 
-  ArrayList<Line> currentLines = new ArrayList<Line>();
+  @FXML private MFXButton SecondFloorButton;
+
+  @FXML private MFXButton ThirdFloorButton;
+
+  @FXML private MFXButton groundFloorButton;
+
+  @FXML private MFXButton lowerLevelTwoButton;
+
+  @FXML private AnchorPane anchorPane;
+
+  @FXML private BorderPane borderPane;
+
+  @FXML private ImageView map;
+
+  @FXML private Pane mapPane;
+  @FXML private ComboBox<String> currentLocationComboBox;
+  @FXML private ComboBox<String> destinationComboBox;
+
+  ArrayList<Line> currentLines = new ArrayList<>();
+  ArrayList<Circle> currentCircles = new ArrayList<>();
+
+  DatabaseGraphController graphController;
 
   @FXML
   public void initialize() {
-
-    //    navMouseSetup(exitButton);
-    exitButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
-    findPathButton.setOnMouseClicked(event -> createPath());
-    refreshButton.setOnMouseClicked(event -> refreshPath());
-    this.addLabels();
-
+    DatabaseController db = new DatabaseController("teame", "teame50");
+    graphController = new DatabaseGraphController(db);
+    setupCombobox();
+    backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     ArrayList<String> listOfNames = new ArrayList<>();
     FXCollections.observableArrayList(listOfNames);
   }
 
-  private void addLabels() {
-    //    DatabaseController db = new DatabaseController("teame", "teame50");
-    //    List<MoveAttribute> listOfAttributes = null; // = db.getMoveAttributeFromFloor();
-    //    for (MoveAttribute moveAttribute : listOfAttributes) {
-    //      Label label = new Label();
-    //      String nodeID = moveAttribute.nodeID;
-    //      HospitalNode node = HospitalNode.allNodes.get(nodeID);
-    //      int xCoord = node.getXCoord();
-    //      int yCoord = node.getYCoord();
-    //      label.setLayoutX(xCoord);
-    //      label.setLayoutY(yCoord);
+  private void setupCombobox() {
+    System.out.println(graphController.getMoveAttributeFromFloor(Floor.LOWER_ONE));
+    List<MoveAttribute> allMoveAttributes =
+        graphController.getMoveAttributeFromFloor(Floor.LOWER_ONE);
+
+    ObservableList<String> locationNames = FXCollections.observableArrayList();
+    for (MoveAttribute attr : allMoveAttributes) {
+      locationNames.add(attr.longName);
+    }
+    currentLocationComboBox.setItems(locationNames);
+    destinationComboBox.setItems(locationNames);
   }
 
-  public void createPath() {
-    if (!fromTextField.getText().equals("") && !toTextField.getText().equals("")) {
-      System.out.println("stage x: " + anchorPane.getWidth());
-      System.out.println("stage y:" + anchorPane.getHeight());
+  private void addLabels() {
+  }
 
+  @FXML
+  public void createPath() {
+    if (destinationComboBox.getValue() != null && currentLocationComboBox.getValue() != null) {
+      refreshPath();
       AStarPathfinder pf = new AStarPathfinder();
-      System.out.println(HospitalNode.allNodes);
 
       // test 2290 >>>>> 1705
-      String from = fromTextField.getText();
-      String to = toTextField.getText();
+      String from = currentLocationComboBox.getValue();
+      String to = destinationComboBox.getValue();
+
+      String toNodeID = graphController.getNodeIDFromName(to) + "";
+      String fromNodeID = graphController.getNodeIDFromName(from) + "";
+
       List<HospitalNode> path =
-          pf.findPath(HospitalNode.allNodes.get(to), HospitalNode.allNodes.get(from));
+          pf.findPath(HospitalNode.allNodes.get(fromNodeID), HospitalNode.allNodes.get(toNodeID));
 
       if (path == null) {
         System.out.println("Path does not exist");
         return;
       }
-
-      System.out.println("Path: " + path);
       drawPath(path);
     }
   }
 
   private double convertYCoord(int yCoord) {
-    double paneHeight = anchorPane.getHeight();
+    double paneHeight = mapPane.getHeight();
     double mapHeight = 3400;
 
     return yCoord * (paneHeight / mapHeight);
   }
 
   private double convertXCoord(int xCoord) {
-    double paneWidth = anchorPane.getWidth();
+    double paneWidth = mapPane.getWidth();
     double mapWidth = 5000;
 
     return xCoord * (paneWidth / mapWidth);
@@ -101,32 +123,37 @@ public class MapController {
    * @param path
    */
   private void drawPath(List<HospitalNode> path) {
+
+    // create circle to symbolize start
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
     Circle startCircleOutside = new Circle(convertXCoord(x1), convertYCoord(y1), 4);
     startCircleOutside.setFill(BLACK);
     Circle startCircleInside = new Circle(convertXCoord(x1), convertYCoord(y1), 3);
     startCircleInside.setFill(WHITE);
-    anchorPane.getChildren().add(startCircleOutside);
-    anchorPane.getChildren().add(startCircleInside);
+    mapPane.getChildren().add(startCircleOutside);
+    mapPane.getChildren().add(startCircleInside);
+    currentCircles.add(startCircleInside);
+    currentCircles.add(startCircleOutside);
 
+    // draw the lines between each node
     int x2, y2;
-
     for (int i = 1; i < path.size(); i++) {
       HospitalNode node = path.get(i);
       x2 = node.getXCoord();
       y2 = node.getYCoord();
 
       drawLine(x1, y1, x2, y2);
-      //      System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
 
       x1 = x2;
       y1 = y2;
     }
 
+    // create circle to symbolize end
     Circle endCircle = new Circle(convertXCoord(x1), convertYCoord(y1), 4);
     endCircle.setFill(BLACK);
-    anchorPane.getChildren().add(endCircle);
+    mapPane.getChildren().add(endCircle);
+    currentCircles.add(endCircle);
   }
 
   /**
@@ -140,13 +167,14 @@ public class MapController {
     y2 = (int) this.convertYCoord(y2);
 
     Line line = new Line(x1, y1, x2, y2);
-    anchorPane.getChildren().add(line);
+    mapPane.getChildren().add(line);
     currentLines.add(line);
   }
 
   /** removes all the lines in the currentLines list */
   public void refreshPath() {
-    anchorPane.getChildren().removeAll(currentLines);
+    mapPane.getChildren().removeAll(currentCircles);
+    mapPane.getChildren().removeAll(currentLines);
   }
 
   public void createTriangle(Pane pane, double x, double y, double size) {

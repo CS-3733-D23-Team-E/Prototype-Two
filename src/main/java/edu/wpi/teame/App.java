@@ -37,7 +37,7 @@ public class App extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 
-    Navigation.navigate(Screen.LOWER_ONE);
+    Navigation.navigate(Screen.TEST_MAP);
   }
 
   @Override
