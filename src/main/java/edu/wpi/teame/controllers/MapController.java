@@ -9,7 +9,6 @@ import edu.wpi.teame.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -43,9 +42,6 @@ public class MapController {
 
     ArrayList<String> listOfNames = new ArrayList<>();
     FXCollections.observableArrayList(listOfNames);
-
-
-
   }
 
   private void addLabels() {
