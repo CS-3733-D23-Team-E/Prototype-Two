@@ -2,11 +2,15 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.*;
 
+import edu.wpi.teame.map.HospitalNode;
+import edu.wpi.teame.map.pathfinding.AStarPathfinder;
 import edu.wpi.teame.navigation.Navigation;
 import edu.wpi.teame.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -15,8 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
-import pathfinding.AStarPathfinder;
-import pathfinding.HospitalNode;
 
 public class MapController {
 
@@ -38,6 +40,12 @@ public class MapController {
     findPathButton.setOnMouseClicked(event -> createPath());
     refreshButton.setOnMouseClicked(event -> refreshPath());
     this.addLabels();
+
+    ArrayList<String> listOfNames = new ArrayList<>();
+    FXCollections.observableArrayList(listOfNames);
+
+
+
   }
 
   private void addLabels() {
@@ -61,8 +69,11 @@ public class MapController {
       AStarPathfinder pf = new AStarPathfinder();
       System.out.println(HospitalNode.allNodes);
 
+      // test 2290 >>>>> 1705
+      String from = fromTextField.getText();
+      String to = toTextField.getText();
       List<HospitalNode> path =
-          pf.findPath(HospitalNode.allNodes.get("2290"), HospitalNode.allNodes.get("1705"));
+          pf.findPath(HospitalNode.allNodes.get(to), HospitalNode.allNodes.get(from));
 
       if (path == null) {
         System.out.println("Path does not exist");
@@ -111,7 +122,7 @@ public class MapController {
       y2 = node.getYCoord();
 
       drawLine(x1, y1, x2, y2);
-//      System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
+      //      System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
 
       x1 = x2;
       y1 = y2;

@@ -2,7 +2,7 @@ package edu.wpi.teame;
 
 import Database.DatabaseController;
 import Database.DatabaseGraphController;
-import pathfinding.HospitalNode;
+import edu.wpi.teame.map.HospitalNode;
 
 public class Main {
 
