@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import lombok.Getter;
 
 public class DatabaseController {
   public Connection getC() {
@@ -82,8 +81,11 @@ public class DatabaseController {
       }
     }
   }
+<<<<<<< HEAD
 
   @Getter private Connection c;
+=======
+>>>>>>> parent of 84cdcbc (Merge remote-tracking branch 'origin/DatabaseServiceController' into NB_Submit2)
 
   public DatabaseController(String username, String password) {
     c = this.connectToDatabase(username, password);
