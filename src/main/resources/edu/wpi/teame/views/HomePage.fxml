@@ -35,7 +35,14 @@
                     </effect>
                 </ImageView>
                 <Rectangle arcHeight="100.0" arcWidth="100.0" fill="#7e7e7e" height="462.0" layoutX="137.0" layoutY="41.0" opacity="0.64" stroke="TRANSPARENT" strokeType="INSIDE" width="537.0" />
-                <MFXButton fx:id="menuButton" alignment="TOP_LEFT" contentDisplay="GRAPHIC_ONLY" graphicTextGap="1.0" layoutX="5.0" layoutY="65.0" prefHeight="50.0" prefWidth="50.0" rippleColor="#e1e1e1" style="-fx-background-color: #192d5a; -fx-background-radius: 0; -fx-background-size: 50;" />
+                <MFXButton fx:id="menuButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="5.0" layoutY="65.0" prefHeight="50.0" prefWidth="50.0" rippleColor="#e1e1e1" style="-fx-background-color: #192d5a; -fx-background-radius: 0; -fx-background-size: 50;">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/menu.png" />
+                     </image>
+                  </ImageView>
+               </graphic></MFXButton>
                 <VBox alignment="TOP_CENTER" layoutX="256.0" layoutY="202.0" prefHeight="238.0" prefWidth="300.0" spacing="20.0">
                     <children>
                         <MFXButton fx:id="serviceRequestButton" alignment="CENTER" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #192d5a; -fx-text-fill: #ffffff;" text="Service Requests  " textAlignment="RIGHT" textFill="WHITE">
@@ -167,6 +174,18 @@
                   <Font name="Poor Richard" size="48.0" />
                </font>
             </Text>
+            <MFXButton fx:id="exitButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" layoutX="730.0" layoutY="12.0" prefHeight="58.0" prefWidth="59.0" style="-fx-background-color: #192d5a; -fx-text-fill: #ffffff; -fx-background-radius: 0;" text="Exit" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/exit.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
 
             </children>
         </AnchorPane>

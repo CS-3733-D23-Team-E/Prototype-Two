@@ -23,6 +23,7 @@ public class HomePageController {
   @FXML MFXButton menuBarExit;
   @FXML MFXButton mapsButton;
   @FXML MFXButton menuBarDatabase;
+  @FXML MFXButton exitButton;
 
   public void initialize() {
     menuDropDownVisibility(false);
@@ -38,6 +39,8 @@ public class HomePageController {
     mouseSetup(serviceRequestButton);
     mouseSetup(signageButton);
     mouseSetup(mapsButton);
+    mouseSetup(exitButton);
+    exitButton.setOnMouseClicked(event -> Platform.exit());
     serviceRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     signageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     mapsButton.setOnMouseClicked(event -> Navigation.navigate(Screen.GROUND_FLOOR));
