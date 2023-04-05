@@ -82,6 +82,7 @@ public class DatabaseController {
       }
     }
   }
+
   @Getter private Connection c;
 
   public DatabaseController(String username, String password) {

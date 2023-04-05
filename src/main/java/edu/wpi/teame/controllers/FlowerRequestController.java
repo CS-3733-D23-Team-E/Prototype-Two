@@ -1,5 +1,7 @@
 package edu.wpi.teame.controllers;
 
+import Database.DatabaseController;
+import Database.DatabaseServiceController;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.navigation.Navigation;
 import edu.wpi.teame.navigation.Screen;
@@ -48,9 +50,10 @@ public class FlowerRequestController implements IRequestController {
     flowerRequestSubmit.setOnMouseClicked(event -> sendRequest());
     cancelButton.setOnMouseClicked(event -> cancelRequest());
     clearForm.setOnMouseClicked(event -> clearForm());
+
   }
 
-  public ServiceRequestData sendRequest() {
+  public void sendRequest() {
 
     // Create the json to store the values
     JSONObject requestData = new JSONObject();
@@ -71,7 +74,9 @@ public class FlowerRequestController implements IRequestController {
 
     // Return to the home screen
     Navigation.navigate(Screen.HOME);
-    return flowerRequestData;
+    DatabaseController db = new DatabaseController();
+    DatabaseServiceController dbsc = new DatabaseServiceController(db);
+    dbsc.;
   }
 
   // Cancels the current service request
