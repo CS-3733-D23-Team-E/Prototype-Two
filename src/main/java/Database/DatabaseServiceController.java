@@ -1,6 +1,7 @@
 package Database;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import edu.wpi.teame.entities.ServiceRequestData;
 import lombok.Getter;
 import org.json.JSONObject;
@@ -23,6 +24,13 @@ public class DatabaseServiceController {
 
   public List<ServiceRequestData> retrieveRequestsFromTable() {
     return serviceRequests;
+=======
+public class DatabaseServiceController {
+  DatabaseController db;
+
+  public DatabaseServiceController(DatabaseController db) {
+    this.db = db;
+>>>>>>> parent of 84cdcbc (Merge remote-tracking branch 'origin/DatabaseServiceController' into NB_Submit2)
 =======
 public class DatabaseServiceController {
   DatabaseController db;

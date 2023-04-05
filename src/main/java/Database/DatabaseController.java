@@ -82,8 +82,11 @@ public class DatabaseController {
     }
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   @Getter private Connection c;
+=======
+>>>>>>> parent of 84cdcbc (Merge remote-tracking branch 'origin/DatabaseServiceController' into NB_Submit2)
 =======
 >>>>>>> parent of 84cdcbc (Merge remote-tracking branch 'origin/DatabaseServiceController' into NB_Submit2)
 
